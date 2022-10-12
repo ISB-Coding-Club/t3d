@@ -3,12 +3,12 @@ import { mat4 } from "gl-matrix";
 import { initShaders } from "../shaders";
 import { WebGLBuffers, WebGLProgramInfo } from "../types";
 
-export class WebGLRenderer2D {
+export class WebGLRenderer {
     private canvas: HTMLCanvasElement;
     private context?: WebGLRenderingContext | WebGL2RenderingContext;
     private programInfo?: WebGLProgramInfo;
     private buffers?: WebGLBuffers;
-    private squareRotation = 0.0;
+    private cubeRotation = 0.0;
     private previous = 0;
 
     public constructor(root: HTMLElement) {
@@ -83,24 +83,21 @@ export class WebGLRenderer2D {
     private initBuffers() {
         if (!this.context) return;
 
-        const colors = [
-            1.0,
-            1.0,
-            1.0,
-            1.0, // white
-            1.0,
-            0.0,
-            0.0,
-            1.0, // red
-            0.0,
-            1.0,
-            0.0,
-            1.0, // green
-            0.0,
-            0.0,
-            1.0,
-            1.0, // blue
+        const faceColors = [
+            [1.0, 1.0, 1.0, 1.0], // Front face: white
+            [1.0, 0.0, 0.0, 1.0], // Back face: red
+            [0.0, 1.0, 0.0, 1.0], // Top face: green
+            [0.0, 0.0, 1.0, 1.0], // Bottom face: blue
+            [1.0, 1.0, 0.0, 1.0], // Right face: yellow
+            [1.0, 0.0, 1.0, 1.0], // Left face: purple
         ];
+
+        let colors: number[] = [];
+
+        for (let j = 0; j < faceColors.length; ++j) {
+            const c = faceColors[j];
+            colors = colors.concat(c, c, c, c);
+        }
 
         const colorBuffer = this.context.createBuffer();
         this.context.bindBuffer(this.context.ARRAY_BUFFER, colorBuffer);
@@ -115,7 +112,25 @@ export class WebGLRenderer2D {
 
         this.context.bindBuffer(this.context.ARRAY_BUFFER, positionBuffer);
 
-        const positions = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0];
+        const positions = [
+            // Front face
+            -1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0,
+
+            // Back face
+            -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, -1.0, -1.0,
+
+            // Top face
+            -1.0, 1.0, -1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0,
+
+            // Bottom face
+            -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, -1.0, -1.0, 1.0,
+
+            // Right face
+            1.0, -1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0,
+
+            // Left face
+            -1.0, -1.0, -1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, -1.0,
+        ];
 
         this.context.bufferData(
             this.context.ARRAY_BUFFER,
@@ -123,9 +138,58 @@ export class WebGLRenderer2D {
             this.context.STATIC_DRAW
         );
 
+        const indexBuffer = this.context.createBuffer();
+        this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, indexBuffer);
+
+        const indices = [
+            0,
+            1,
+            2,
+            0,
+            2,
+            3, // front
+            4,
+            5,
+            6,
+            4,
+            6,
+            7, // back
+            8,
+            9,
+            10,
+            8,
+            10,
+            11, // top
+            12,
+            13,
+            14,
+            12,
+            14,
+            15, // bottom
+            16,
+            17,
+            18,
+            16,
+            18,
+            19, // right
+            20,
+            21,
+            22,
+            20,
+            22,
+            23, // left
+        ];
+
+        this.context.bufferData(
+            this.context.ELEMENT_ARRAY_BUFFER,
+            new Uint16Array(indices),
+            this.context.STATIC_DRAW
+        );
+
         this.buffers = {
             position: positionBuffer!,
             color: colorBuffer!,
+            indices: indexBuffer!,
         };
     }
 
@@ -157,11 +221,11 @@ export class WebGLRenderer2D {
         mat4.rotate(
             modelViewMatrix,
             modelViewMatrix,
-            this.squareRotation,
-            [0, 0, 1]
+            this.cubeRotation * 0.7,
+            [1, 1, 1]
         );
 
-        let numComponents = 2;
+        let numComponents = 3;
         let type = this.context.FLOAT;
         let normalize = false;
         let stride = 0;
@@ -204,6 +268,11 @@ export class WebGLRenderer2D {
             this.programInfo.attribLocations.vertexColor
         );
 
+        this.context.bindBuffer(
+            this.context.ELEMENT_ARRAY_BUFFER,
+            this.buffers!.indices
+        );
+
         this.context.useProgram(this.programInfo.program);
 
         this.context.uniformMatrix4fv(
@@ -218,8 +287,18 @@ export class WebGLRenderer2D {
             modelViewMatrix
         );
 
+        let vertexCount = 36;
+        type = this.context.UNSIGNED_SHORT;
         offset = 0;
-        const vertexCount = 4;
+        this.context.drawElements(
+            this.context.TRIANGLES,
+            vertexCount,
+            type,
+            offset
+        );
+
+        offset = 0;
+        vertexCount = 4;
 
         this.context.drawArrays(
             this.context.TRIANGLE_STRIP,
@@ -227,7 +306,7 @@ export class WebGLRenderer2D {
             vertexCount
         );
 
-        this.squareRotation += deltaTime;
+        this.cubeRotation += deltaTime;
     }
 
     private render(delta: number) {

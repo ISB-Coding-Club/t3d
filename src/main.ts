@@ -1,9 +1,9 @@
 import "./styles/main.scss";
-import { Game } from "./t3d";
+import { Game } from "../lib";
 
 const main = () => {
     const root = document.getElementById("app")! as HTMLDivElement;
-    const game = new Game(root);
+    new Game(root);
 };
 
 window.addEventListener("load", main);

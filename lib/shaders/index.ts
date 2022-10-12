@@ -1,9 +1,13 @@
-export * from "./vertex";
-export * from "./fragment";
+export * from "./util";
 
-import { VertexShader } from "./vertex";
-import { FragmentShader } from "./fragment";
+import VertexShaderData from "./vertex.vert?url";
+import FragmentShaderData from "./fragment.frag?url";
+
 import { WebGLContext } from "../types";
+import { decodeShaderData } from "./util";
+
+export const VertexShader = decodeShaderData(VertexShaderData);
+export const FragmentShader = decodeShaderData(FragmentShaderData);
 
 export const loadShader = (
     context: WebGLContext,

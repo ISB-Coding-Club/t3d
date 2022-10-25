@@ -1,7 +1,10 @@
+#![allow(unsafe_code)]
+
 mod utils;
 mod linker;
 mod shader;
 mod webgl;
+mod renderer;
 
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;

@@ -1,0 +1,37 @@
+[package]
+name = "core"
+version = "0.1.0"
+authors = ["Jacob Sapoznikow <500074@bsd48.org>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["console_error_panic_hook"]
+
+[dependencies]
+wasm-bindgen = "0.2.63"
+console_error_panic_hook = { version = "0.1.6", optional = true }
+wee_alloc = { version = "0.4.5", optional = true }
+js-sys = "0.3.60"
+
+[dependencies.web-sys]
+version = "0.3.60"
+features = [
+  'Document',
+  'Element',
+  'HtmlCanvasElement',
+  'WebGlBuffer',
+  'WebGlVertexArrayObject',
+  'WebGl2RenderingContext',
+  'WebGlProgram',
+  'WebGlShader',
+  'Window',
+]
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.13"
+
+[profile.release]
+opt-level = "s"

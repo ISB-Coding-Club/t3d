@@ -1,0 +1,6 @@
+# This is a stub for Rust-Analyzer.
+
+[workspace]
+members = [
+    "crates/core",
+]

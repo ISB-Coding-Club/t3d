@@ -1,9 +1,8 @@
-import "./styles/main.scss";
-import { Game } from "../lib";
+import init, { start } from "../crates/core/pkg";
 
-const main = () => {
-    const root = document.getElementById("app")! as HTMLDivElement;
-    new Game(root);
+const main = async () => {
+    await init();
+    start();
 };
 
-window.addEventListener("load", main);
+main();

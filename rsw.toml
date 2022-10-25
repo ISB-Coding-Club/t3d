@@ -1,0 +1,15 @@
+name = "rsw"
+version = "0.1.0"
+interval = 50
+cli = "[npm"
+
+[new]
+using = "wasm-pack"
+dir = "my-template"
+
+[[crates]]
+name = "core"
+link = true
+root = "crates"
+target = "web"
+out-dir = "pkg"

@@ -1,6 +1,6 @@
 use web_sys::{WebGlProgram, WebGl2RenderingContext, WebGlShader};
 
-pub const vertex: &str = r##"
+pub const VERTEX: &str = r##"
 attribute vec4 aVertexPosition;
 attribute vec4 aVertexColor;
 
@@ -15,7 +15,7 @@ void main() {
 }
 "##;
 
-pub const fragment: &str = r##"
+pub const FRAGMENT: &str = r##"
 varying lowp vec4 vColor;
     
 void main(void) {
@@ -40,17 +40,17 @@ pub fn load_shader(
     return shader;
 }
 
-pub fn init_shaders(context: WebGl2RenderingContext) -> WebGlProgram {
+pub fn init_shaders(context: &WebGl2RenderingContext) -> WebGlProgram {
     let vertex_shader = load_shader(
-        context,
+        context.to_owned(),
         WebGl2RenderingContext::VERTEX_SHADER,
-        vertex
+        VERTEX
     );
 
     let fragment_shader = load_shader(
-        context,
+        context.to_owned(),
         WebGl2RenderingContext::FRAGMENT_SHADER,
-        fragment
+        FRAGMENT
     );
 
     let shader_program = context.create_program().unwrap();

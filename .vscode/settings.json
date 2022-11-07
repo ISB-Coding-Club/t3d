@@ -1,3 +1,5 @@
 {
-    "nuxt.isNuxtApp": false
+    "nuxt.isNuxtApp": false,
+    "asls.include": ["assembly/**/*.ts", "assembly/*.ts"],
+    "rust-analyzer.cargo.target": "wasm32-unknown-unknown"
 }

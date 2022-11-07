@@ -19,50 +19,48 @@ pub struct ProgramUniformLocations {
 }
 
 impl ProgramAttributeLocations {
-    pub fn new(context: WebGl2RenderingContext, program: WebGlProgram) -> ProgramAttributeLocations {
+    pub fn new(context: &WebGl2RenderingContext, program: &WebGlProgram) -> ProgramAttributeLocations {
         return ProgramAttributeLocations {
             vertex_position: context.get_attrib_location(
-                &program,
+                program,
                 "aVertexPosition"
             ),
 
             vertex_color: context.get_attrib_location(
-                &program,
+                program,
                 "aVertexColor"
             ),
         };
     }
 }
 
+impl ProgramUniformLocations {
+    pub fn new(context: &WebGl2RenderingContext, program: &WebGlProgram) -> ProgramUniformLocations {
+        return ProgramUniformLocations {
+            projection_matrix: context.get_uniform_location(
+                program,
+                "uProjectionMatrix"
+            ),
+            model_view_matrix: context.get_uniform_location(
+                program,
+                "uModelViewMatrix"
+            ),
+        }
+    }
+}
+
 impl WebGLProgramInfo {
-    pub fn new(context: WebGl2RenderingContext) -> WebGLProgramInfo {
-        let program = init_shaders(context);
+    pub fn new(context: &WebGl2RenderingContext) -> WebGLProgramInfo {
+        let program = init_shaders(&context);
+
+        let attrib_locations = ProgramAttributeLocations::new(&context, &program);
+        let uniform_locations = ProgramUniformLocations::new(&context, &program);
 
         return WebGLProgramInfo {
             program,
 
-            // attribLocations: {
-            //     vertexPosition: this.context.getAttribLocation(
-            //         shaderProgram,
-            //         "aVertexPosition"
-            //     ),
-
-            //     vertexColor: this.context.getAttribLocation(
-            //         shaderProgram,
-            //         "aVertexColor"
-            //     ),
-            // },
-
-            // uniformLocations: {
-            //     projectionMatrix: this.context.getUniformLocation(
-            //         shaderProgram,
-            //         "uProjectionMatrix"
-            //     ),
-            //     modelViewMatrix: this.context.getUniformLocation(
-            //         shaderProgram,
-            //         "uModelViewMatrix"
-            //     ),
-            // },
+            attrib_locations,
+            uniform_locations,
         };
     }
 }

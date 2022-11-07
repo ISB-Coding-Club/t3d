@@ -3,6 +3,7 @@ name = "core"
 version = "0.1.0"
 authors = ["Jacob Sapoznikow <500074@bsd48.org>"]
 edition = "2018"
+resolver = "2"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -15,6 +16,9 @@ wasm-bindgen = "0.2.63"
 console_error_panic_hook = { version = "0.1.6", optional = true }
 wee_alloc = { version = "0.4.5", optional = true }
 js-sys = "0.3.60"
+wasm-bindgen-futures = { version = "0.4.33", features = ["futures-core"] }
+fyrox = "0.28.0"
+glow = "0.11.2"
 
 [dependencies.web-sys]
 version = "0.3.60"
@@ -30,10 +34,19 @@ features = [
   'WebGlUniformLocation',
   'Window',
   'HtmlElement',
+  'HtmlDivElement',
+  'Performance',
+  'PerformanceTiming',
+  'console',
+  'WebGlRenderingContext',
 ]
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3.13"
 
+[profile.dev]
+debug = true
+
 [profile.release]
 opt-level = "s"
+debug = true

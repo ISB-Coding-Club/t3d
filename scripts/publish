@@ -1,0 +1,13 @@
+#!/bin/bash
+
+for folder in packages/*; do
+    cd "$folder" || exit
+    pnpm publish --access public
+    cd ../..
+done
+
+for app in apps/*; do
+    cd "$app" ||exit
+    pnpm publish --access public
+    cd ../..
+done

@@ -1,0 +1,20 @@
+{
+    "name": "@t3d-engine/serialization",
+    "description": "The T3D engine serialization system.",
+    "version": "0.1.0-beta.2",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "ts-node esbuild.config.ts",
+        "watch": "ts-node esbuild.watch.ts",
+        "clean": "rimraf dist"
+    },
+    "dependencies": {
+        "@babylonjs/core": "^5.32.1",
+        "@babylonjs/serializers": "^5.32.1",
+        "babylonjs-gltf2interface": "^5.32.1"
+    },
+    "devDependencies": {
+        "concurrently": "^7.5.0",
+        "esbuild": "^0.15.13"
+    }
+}

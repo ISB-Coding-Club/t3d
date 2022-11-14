@@ -1,33 +1,28 @@
 {
-    "name": "t3d",
-    "private": false,
-    "version": "0.1.0",
-    "main": "dist/index.cjs.js",
-    "module": "dist/index.es.js",
-    "browser": "dist/index.umd.js",
-    "source": "lib/index.ts",
-    "types": "dist/index.d.ts",
+    "name": "@t3d/workspace",
+    "version": "0.1.0-beta.2",
+    "description": "A new, modern, and blazingly fast game engine written in TypeScript, optimized for the web and desktop devices.",
+    "license": "MIT",
     "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
-        "preview": "vite preview",
-        "fmt": "prettier --write . --plugin-search-dir ."
+        "fmt": "prettier --write .",
+        "lint": "eslint .",
+        "build": "scripts/build"
     },
     "devDependencies": {
-        "@types/node": "^18.8.4",
-        "@typescript-eslint/eslint-plugin": "^5.39.0",
-        "@typescript-eslint/parser": "^5.39.0",
-        "eslint": "^8.25.0",
-        "prettier": "^2.7.1",
-        "sass": "^1.55.0",
-        "terser": "^5.15.1",
-        "ts-node": "^10.9.1",
-        "typescript": "^4.6.4",
-        "vite": "^3.1.0",
-        "vite-plugin-dts": "^1.6.5"
+        "@types/node": "^18.11.9",
+        "concurrently": "^7.5.0",
+        "esbuild": "^0.15.13",
+        "nx": "15.0.13",
+        "prettier": "^2.6.2",
+        "rimraf": "^3.0.2",
+        "ts-node": "10.9.1",
+        "typescript": "^4.8.4"
     },
     "dependencies": {
-        "gl-matrix": "^3.4.3",
-        "tslib": "^2.4.0"
-    }
+        "tslib": "^2.3.0"
+    },
+    "workspaces": [
+        "packages/*",
+        "apps/*"
+    ]
 }

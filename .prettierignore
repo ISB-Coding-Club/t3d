@@ -1,19 +1,22 @@
 # Folders
-node_modules/
+/dist
+/coverage
+/node_modules
+
 dist/
-
-# Files
-*.png
-*.ogg
-*.md
-LICENSE
-
-# Shaders
-*.glsl
-*.frag
-*.vert
+node_modules/
 
 # Package manager lock files
 pnpm-lock.yaml
-package-lock.json
-yarn.lock
+
+# Other files
+LICENSE
+*.md
+*.png
+*.jpg
+*.gif
+*.ogg
+*.jpeg
+*.glsl
+*.frag
+*.vert

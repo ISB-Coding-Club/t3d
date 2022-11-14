@@ -3,20 +3,35 @@
         "target": "ESNext",
         "useDefineForClassFields": true,
         "module": "CommonJS",
-        "lib": ["ESNext", "DOM"],
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "moduleResolution": "Node",
         "strict": true,
         "sourceMap": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
         "esModuleInterop": true,
-        "noEmit": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noImplicitReturns": true,
         "skipLibCheck": true,
         "types": ["node"],
-        "importHelpers": true
+        "importHelpers": true,
+        "declaration": true,
+        "inlineSourceMap": false,
+        "allowSyntheticDefaultImports": true
     },
-    "include": ["src", "lib", "scripts"]
+    "include": [
+        "./packages/*/src",
+        "./apps/*/src",
+        "src",
+        "esbuild.config.ts",
+        "esbuild.watch.ts",
+        "./packages/*/esbuild.config.ts",
+        "./packages/*/esbuild.watch.ts",
+        "./apps/*/esbuild.config.ts",
+        "./apps/*/esbuild.watch.ts",
+        "server",
+        "./apps/*/server",
+        "./packages/*/server"
+    ]
 }

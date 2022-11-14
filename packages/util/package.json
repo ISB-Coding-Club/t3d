@@ -1,0 +1,19 @@
+{
+    "name": "@t3d-engine/util",
+    "description": "The T3D engine's internal utility library.",
+    "version": "0.1.0-beta.2",
+    "main": "dist/index.js",
+    "source": "src/index.ts",
+    "scripts": {
+        "build": "ts-node esbuild.config.ts",
+        "watch": "ts-node esbuild.watch.ts",
+        "clean": "rimraf dist"
+    },
+    "dependencies": {
+        "@babylonjs/core": "^5.32.1"
+    },
+    "devDependencies": {
+        "concurrently": "^7.5.0",
+        "esbuild": "^0.15.13"
+    }
+}
